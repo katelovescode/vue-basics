@@ -15,6 +15,8 @@
     <p>Who's app is this: {{ array[1] }}</p>
     <p>{{ obj.car }}</p>
     <p>{{ func() }}</p>
+    <p>{{ welcome() }}</p>
+    <p>{{ personCar() }}</p>
   </div>
   
 </body>
@@ -22,6 +24,8 @@
 
   new Vue({
     el: '#app',
+    // use this as a store for data; `data` is a reserved property in Vue.js
+    // this is why you don't have to do data.greeting to call the elements
     data: {
       greeting: 'Hello folks',
       isItTrue: true,
@@ -32,9 +36,19 @@
       func: () => {
         return 'my function string'
       }
-    } 
-    // use this as a store for data; `data` is a reserved property in Vue.js
-    // this is why you don't have to do data.greeting to call the elements
+    },
+    // this can be used in place of functions inside the data; methods is a
+    // reserved keyword in Vue.js, and this is more semantic
+    methods: {
+      welcome() {
+        return 'another greeting'
+      },
+      personCar() {
+        // `this` inside methods refers to the whole Vue object, but again because
+        // data is a reserved kewyord, we don't have to call through the .data attribute
+        return this.array[0] + ' has a ' + this.obj.car
+      }
+    }
   });
 
 </script>
