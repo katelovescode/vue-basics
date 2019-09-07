@@ -5,10 +5,37 @@
   <meta http-equiv='X-UA-Compatible' content='IE=edge'>
   <title>Page Title</title>
   <meta name='viewport' content='width=device-width, initial-scale=1'>
-  <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
   <script src='js/vue.js'></script>
 </head>
 <body>
+
+  <div id='app'>
+    <p>{{ greeting }}</p>
+    <p>Is it true? {{ isItTrue ? 'This is a true statement' : 'This is a false statement' }}</p>
+    <p>Who's app is this: {{ array[1] }}</p>
+    <p>{{ obj.car }}</p>
+    <p>{{ func() }}</p>
+  </div>
   
 </body>
+<script>
+
+  new Vue({
+    el: '#app',
+    data: {
+      greeting: 'Hello folks',
+      isItTrue: true,
+      array: ['Francis', 'Jane'],
+      obj: {
+        car: 'Hyundai Accent'
+      },
+      func: () => {
+        return 'my function string'
+      }
+    } 
+    // use this as a store for data; `data` is a reserved property in Vue.js
+    // this is why you don't have to do data.greeting to call the elements
+  });
+
+</script>
 </html>
