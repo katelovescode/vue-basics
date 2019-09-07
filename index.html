@@ -10,27 +10,27 @@
 <body>
 
   <div id="app">
-    <div v-if="userAge >= allowedAge">
-      <p>You can see this content, you're old enough</p>
+    <div v-for="name in names">
+      {{ name }}
     </div>
-    <div v-else-if="user === 'Francis'">
-      <p>It's okay for you, {{ user }}</p>
+    <div v-for="(name, idx) in names">
+      {{ name }}: {{ idx }} <!-- the directive should be the smallest child object, don't nest a tag inside it like I did in prior examples -->
     </div>
-    <div v-else>
-      <p>You can't see this content, you're too young</p>
-    </div>
-    <div v-if="isUserOkay()"><!-- if this is false these elements won't be rendered at all -->
-      <p>You can see this content</p>
-    </div>
-    <div v-else>
-      <p>You can't see this</p>
-    </div>
-    <div v-show="isUserOkay()"><!-- if this is false, it results in a rendered div with display:none -->
-      <p>This will only show if the user is Francis or they're old enough</p>
-    </div>
-    <div v-show="!isUserOkay()">
-        <p>This will only show if the user isn't Francis and they're too young</p>
-      </div>
+
+
+    <ul>
+      <li v-for="(name, idx) in names">{{ idx }} : {{ name }}</li>
+    </ul>
+
+    <ul>
+      <li v-for="(car, index) in cars">{{ index }} Brand: {{ car.brand }}, Color: {{ car.color }}</li>
+    </ul>
+
+    <ul>
+      <!-- this was an unexpected order -->
+      <li v-for="(value, key, index) in user">{{ index }} {{ key }}: {{ value }}</li>
+    </ul>
+
   </div>
   
 </body>
@@ -39,14 +39,26 @@
   new Vue({
     el: "#app",
     data: {
-      user: "Francis",
-      userAge: 15,
-      allowedAge: 18
-    },
-    methods: {
-      isUserOkay() {
-        return this.user === "Francis" || this.userAge >= this.allowedAge ? true : false
-      }
+      user: {
+        name: "Kate",
+        lastName: "Donaldson",
+        age: 37
+      },
+      names: ["Francis", "Steeeeeeve", "Julius", "Marissa"],
+      cars: [
+        {
+          brand: "Ferrari",
+          color: "red"
+        },
+        {
+          brand: "Hyundai",
+          color: "black"
+        },
+        {
+          brand: "Volkswagen",
+          color: "green"
+        }
+      ]
     }
   });
 
