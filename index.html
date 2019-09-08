@@ -11,18 +11,17 @@
 
   <div id="app">
     <h1>{{ name }}</h1>
-    <div v-on:click="changeName()">
+    <div v-on:click="changeName('Steve',$event)"><!-- this is how we tell Vue we want the event as well as the argument -->
       Click me
     </div>
-    <div v-on:dblclick="changeName()">
-      Click me twice
+    <div v-on:click.right="changeName('Steve',$event)"><!-- .right is a modifier to the click -->
+      Right click me
     </div>
-    <hr />
-    <div class="box" v-on:mousemove="getCoordinates">
-      Hover me
-    </div>
-    <p>x: {{ x }}</p>
-    <p>y: {{ y }}</p>
+
+    <form v-on:submit.prevent="handleForm">
+      <input type="text" name="Name" />
+      <button type="submit">Submit</button>
+    </form>
   </div>
   
 </body>
@@ -32,27 +31,18 @@
     el: "#app",
     data: {
       name: "Kate",
-      x: 0,
-      y: 0
     },
     methods: {
-      changeName() {
-        this.name === "Kate" ? this.name = "Steve" : this.name = "Kate"
+      changeName(name, event) {
+        console.log(event)
+        this.name === "Kate" ? this.name = name : this.name = "Kate"
       },
-      getCoordinates(event) {
-        this.x = event.clientX;
-        this.y = event.clientY;
+      handleForm(event) {
+        // event.preventDefault(); // we don't need this with the submit.prevent modifier
+        console.log("Form submitted");
       }
     }
   });
 
 </script>
-
-<style>
-  .box {
-    background: red;
-    width: 200px;
-    height: 200px;
-  }
-</style>
 </html>
