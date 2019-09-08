@@ -10,37 +10,48 @@
 <body>
 
   <div id="app">
-    <div id="longhand">
-      <button v-on:click="alertSomething">Alert Me</button>
-      <hr />
-      <a v-bind:href="google">Visit Google</a>
-      <hr />
-      <input type="text" v-model="user" />
-    </div>
-    <div id="shorthand">
-      <button @click="alertSomething">Alert Me</button>
-      <hr />
-      <a :href="google">Visit Google</a>
-      <hr />
-      <input type="text" v-model="user" /><!-- no shorthand -->
-    </div>
+    <div>Instance one: {{ value }}</div>
+    <button @click="changeValue">Change</button>
+  </div>
+
+  <div id="app2">
+    <div>Instance two: {{ value }}</div>
+    <button @click="alertMessage">Alert</button>
   </div>
   
 </body>
 <script>
 
-  new Vue({
+  let message = "whatev"
+
+  const first_vue = new Vue({
     el: "#app",
     data: {
-      user: "",
-      google: "http://www.google.com"
+      value: "Red"
     },
     methods: {
-      alertSomething() {
-        alert("hey")
+      changeValue() {
+        second_vue.value = "Green"
       }
     }
   });
+  
+  // I think setting these as const when the values can be dynamic seems weird  
+  const second_vue = new Vue({
+    el: "#app2",
+    data: {
+      value: "Blue"
+    },
+    methods: {
+      alertMessage() {
+        alert(message)
+      }
+    }
+  });
+
+  setTimeout(()=>{
+    first_vue.value = "Purple"
+  }, 3000)
 
 </script>
 </html>
