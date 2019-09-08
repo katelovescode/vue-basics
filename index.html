@@ -10,18 +10,59 @@
 <body>
 
   <div id="app">
-    <form v-on:submit.prevent="formHandler">
-      <label>Name</label>
-      <input type="text" v-model.trim="formData.name" /><!-- trims whitespace -->
-      <hr />
-      <label>Last Name</label>
-      <input type="text" v-model.lazy="formData.lastName" /><!-- doesn't update data until the field change event instead of the input event -->
-      <hr />
-      <label>Age</label>
-      <input type="text" v-model.number="formData.age" /><!-- overrides the type -->
-      <hr />
-      <button type="submit">Submit</button>
-    </form>
+    <div 
+      class="element"
+      v-bind:class="{ red: true, blue: false }"
+    ><!-- this is pretty weird, v-bind:class - the object key is the name of the class? -->
+      This is my content
+    </div>
+    <div
+      class="element"
+      v-bind:class="{ blue: isBlue, red: isRed }"
+      v-on:click="isRed = !isRed"
+    >
+      This is my content
+    </div>
+    <div
+      class="element"
+      v-bind:class="[colors.blueClass, colors.redClass]"
+      v-on:click="isRed = !isRed"
+    ><!-- this onClick won't work -->
+      This is my content
+    </div>
+    <div
+      class="element"
+      v-bind:class="[
+        colorsObjects.redClass.active ? colorsObjects.redClass.name : '',
+        colorsObjects.blueClass.active ? colorsObjects.blueClass.name : ''
+      ]"
+      v-on:click="colorsObjects.redClass.active = !colorsObjects.redClass.active"
+    >
+      This is my content
+    </div>
+    <div
+      class="element"
+      v-bind:style="{
+        fontSize: '20px',
+        border: '5px solid green'
+      }"
+    >
+      This is my content
+    </div>
+    <div
+      class="element"
+      v-bind:style="newStyle"
+      v-on:click="newStyle.fontSize = '50px'"
+    >
+      This is my content
+    </div>
+    <div
+      class="element"
+      v-bind:class="colorStyle"
+      v-on:click="colorStyle = 'red'"
+    >
+      This is my content
+    </div>
   </div>
   
 </body>
@@ -30,28 +71,46 @@
   new Vue({
     el: "#app",
     data: {
-      formData: {
-        name: '',
-        lastName: '',
-        age: '',
-      }
-    },
-    methods: {
-      formHandler() {
-        console.log(this.formData)
+      colorStyle: 'blue',
+      isRed: true,
+      isBlue: true,
+      colors: {
+        blueClass: 'blue',
+        redClass: 'red'
+      },
+      colorsObjects: {
+        redClass: {
+          name: 'red',
+          active: true
+        },
+        blueClass: {
+          name: 'blue',
+          active: true
+        }
+      },
+      newStyle: {
+        fontSize: '20px',
+        border: '5px solid green'
       }
     }
   });
 
 </script>
 
-<!--
-
-Notes
-
-- Two way binding - putting data back into the store, rather than just reading from it
-- If you want to add a form and store the data from the inputs directly in data - v-model
-v-model only works for input, select, textarea and components
-
--->
+<style>
+  .element {
+    color: white;
+    background: black;
+    padding: 10px
+  }
+  .blue {
+    background: blue;
+  }
+  .red {
+    background: red;
+  }
+  .green {
+    background: green;
+  }
+</style>
 </html>
