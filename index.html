@@ -10,48 +10,23 @@
 <body>
 
   <div id="app">
-    <div>Instance one: {{ value }}</div>
-    <button @click="changeValue">Change</button>
-  </div>
-
-  <div id="app2">
-    <div>Instance two: {{ value }}</div>
-    <button @click="alertMessage">Alert</button>
+    <div ref="title">Welcome</div>
+    <button @click="getRefs">Hi</button>
   </div>
   
 </body>
 <script>
 
-  let message = "whatev"
-
-  const first_vue = new Vue({
+  new Vue({
     el: "#app",
-    data: {
-      value: "Red"
-    },
     methods: {
-      changeValue() {
-        second_vue.value = "Green"
+      getRefs() {
+        console.log(this.$refs)
+        this.$refs.title.style.color = "red"
+        this.$refs.title.style.fontSize = "50px"
       }
     }
   });
   
-  // I think setting these as const when the values can be dynamic seems weird  
-  const second_vue = new Vue({
-    el: "#app2",
-    data: {
-      value: "Blue"
-    },
-    methods: {
-      alertMessage() {
-        alert(message)
-      }
-    }
-  });
-
-  setTimeout(()=>{
-    first_vue.value = "Purple"
-  }, 3000)
-
 </script>
 </html>
