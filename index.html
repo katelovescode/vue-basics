@@ -10,12 +10,20 @@
 <body>
 
   <div id="app">
-    <input v-model="user" />
-    <button v-on:click="toggleActive">Other Action</button>
-    <hr />
-    <div>Name: {{ compMessage }}</div>
-    <div>Active: {{ compActive }}</div>
-    <div>Loading: {{ loading }}</div>
+    <div id="longhand">
+      <button v-on:click="alertSomething">Alert Me</button>
+      <hr />
+      <a v-bind:href="google">Visit Google</a>
+      <hr />
+      <input type="text" v-model="user" />
+    </div>
+    <div id="shorthand">
+      <button @click="alertSomething">Alert Me</button>
+      <hr />
+      <a :href="google">Visit Google</a>
+      <hr />
+      <input type="text" v-model="user" /><!-- no shorthand -->
+    </div>
   </div>
   
 </body>
@@ -25,43 +33,11 @@
     el: "#app",
     data: {
       user: "",
-      active: false,
-      loading: false,
+      google: "http://www.google.com"
     },
-    watch: {
-      active(value) {
-        this.loading = true;
-        setTimeout(()=>{
-          this.loading = false;
-        },3000)
-      }
-    },
-    // another reserved property of Vue - waiting for a change on something
-    // name the method the same as the data value
-    // can do async
-    computed: {
-      compMessage() {
-        console.log("message() triggered")
-        return this.user === "Francis" ? "Welcome" : "Not allowed"
-      },
-      compActive() {
-        console.log("isActive() triggered")
-        return this.active ? "Active" : "Not Active"
-      }
-    },
-    // another reserved property of Vue - computed
-    // it's a property, aware of the `user` inside the data, only reacts when there's a change to *that* value
-    // every other method re-triggers anytime the page reloads
-    // computed properties are synchronous - you can't make a network request inside them because they won't wait for the promise
-    // you also can't use it with a setTimeout
-    // I guess in this example, every key press inside the input is a dynamic reload, that's why compMessage still works
-    // from the docs:
-    /* 
-    Instead of a computed property, we can define the same function as a method. For the end result, the two approaches are indeed exactly the same. However, the difference is that computed properties are cached based on their reactive dependencies. A computed property will only re-evaluate when some of its reactive dependencies have changed. This means as long as message has not changed, multiple access to the reversedMessage computed property will immediately return the previously computed result without having to run the function again.
-    */
     methods: {
-      toggleActive() {
-        this.active = this.active ? false : true
+      alertSomething() {
+        alert("hey")
       }
     }
   });
