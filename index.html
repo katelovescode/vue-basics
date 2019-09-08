@@ -10,18 +10,9 @@
 <body>
 
   <div id="app">
-    <h1>{{ name }}</h1>
-    <div v-on:click="changeName('Steve',$event)"><!-- this is how we tell Vue we want the event as well as the argument -->
-      Click me
-    </div>
-    <div v-on:click.right="changeName('Steve',$event)"><!-- .right is a modifier to the click -->
-      Right click me
-    </div>
-
-    <form v-on:submit.prevent="handleForm">
-      <input type="text" name="Name" />
-      <button type="submit">Submit</button>
-    </form>
+    <input type="text" v-on:keyup="showEvent">
+    <input type="text" v-on:keyup.71="showEvent"><!-- this is the letter g -->
+    <input type="text" v-on:keyup.g.space.enter="showEvent"><!-- chained modifiers -->
   </div>
   
 </body>
@@ -29,17 +20,9 @@
 
   new Vue({
     el: "#app",
-    data: {
-      name: "Kate",
-    },
     methods: {
-      changeName(name, event) {
-        console.log(event)
-        this.name === "Kate" ? this.name = name : this.name = "Kate"
-      },
-      handleForm(event) {
-        // event.preventDefault(); // we don't need this with the submit.prevent modifier
-        console.log("Form submitted");
+      showEvent(event) {
+        console.log(event.target.value)
       }
     }
   });
