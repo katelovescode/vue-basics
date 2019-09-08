@@ -55,7 +55,10 @@
     // computed properties are synchronous - you can't make a network request inside them because they won't wait for the promise
     // you also can't use it with a setTimeout
     // I guess in this example, every key press inside the input is a dynamic reload, that's why compMessage still works
-    // I need to look at this more
+    // from the docs:
+    /* 
+    Instead of a computed property, we can define the same function as a method. For the end result, the two approaches are indeed exactly the same. However, the difference is that computed properties are cached based on their reactive dependencies. A computed property will only re-evaluate when some of its reactive dependencies have changed. This means as long as message has not changed, multiple access to the reversedMessage computed property will immediately return the previously computed result without having to run the function again.
+    */
     methods: {
       toggleActive() {
         this.active = this.active ? false : true
