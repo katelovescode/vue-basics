@@ -10,59 +10,12 @@
 <body>
 
   <div id="app">
-    <div 
-      class="element"
-      v-bind:class="{ red: true, blue: false }"
-    ><!-- this is pretty weird, v-bind:class - the object key is the name of the class? -->
-      This is my content
-    </div>
-    <div
-      class="element"
-      v-bind:class="{ blue: isBlue, red: isRed }"
-      v-on:click="isRed = !isRed"
-    >
-      This is my content
-    </div>
-    <div
-      class="element"
-      v-bind:class="[colors.blueClass, colors.redClass]"
-      v-on:click="isRed = !isRed"
-    ><!-- this onClick won't work -->
-      This is my content
-    </div>
-    <div
-      class="element"
-      v-bind:class="[
-        colorsObjects.redClass.active ? colorsObjects.redClass.name : '',
-        colorsObjects.blueClass.active ? colorsObjects.blueClass.name : ''
-      ]"
-      v-on:click="colorsObjects.redClass.active = !colorsObjects.redClass.active"
-    >
-      This is my content
-    </div>
-    <div
-      class="element"
-      v-bind:style="{
-        fontSize: '20px',
-        border: '5px solid green'
-      }"
-    >
-      This is my content
-    </div>
-    <div
-      class="element"
-      v-bind:style="newStyle"
-      v-on:click="newStyle.fontSize = '50px'"
-    >
-      This is my content
-    </div>
-    <div
-      class="element"
-      v-bind:class="colorStyle"
-      v-on:click="colorStyle = 'red'"
-    >
-      This is my content
-    </div>
+    <input v-model="user" />
+    <button v-on:click="toggleActive">Other Action</button>
+    <hr />
+    <div>Name: {{ compMessage }}</div>
+    <div>Active: {{ compActive }}</div>
+    <div>Loading: {{ loading }}</div>
   </div>
   
 </body>
@@ -71,46 +24,44 @@
   new Vue({
     el: "#app",
     data: {
-      colorStyle: 'blue',
-      isRed: true,
-      isBlue: true,
-      colors: {
-        blueClass: 'blue',
-        redClass: 'red'
+      user: "",
+      active: false,
+      loading: false,
+    },
+    watch: {
+      active(value) {
+        this.loading = true;
+        setTimeout(()=>{
+          this.loading = false;
+        },3000)
+      }
+    },
+    // another reserved property of Vue - waiting for a change on something
+    // name the method the same as the data value
+    // can do async
+    computed: {
+      compMessage() {
+        console.log("message() triggered")
+        return this.user === "Francis" ? "Welcome" : "Not allowed"
       },
-      colorsObjects: {
-        redClass: {
-          name: 'red',
-          active: true
-        },
-        blueClass: {
-          name: 'blue',
-          active: true
-        }
-      },
-      newStyle: {
-        fontSize: '20px',
-        border: '5px solid green'
+      compActive() {
+        console.log("isActive() triggered")
+        return this.active ? "Active" : "Not Active"
+      }
+    },
+    // another reserved property of Vue - computed
+    // it's a property, aware of the `user` inside the data, only reacts when there's a change to *that* value
+    // every other method re-triggers anytime the page reloads
+    // computed properties are synchronous - you can't make a network request inside them because they won't wait for the promise
+    // you also can't use it with a setTimeout
+    // I guess in this example, every key press inside the input is a dynamic reload, that's why compMessage still works
+    // I need to look at this more
+    methods: {
+      toggleActive() {
+        this.active = this.active ? false : true
       }
     }
   });
 
 </script>
-
-<style>
-  .element {
-    color: white;
-    background: black;
-    padding: 10px
-  }
-  .blue {
-    background: blue;
-  }
-  .red {
-    background: red;
-  }
-  .green {
-    background: green;
-  }
-</style>
 </html>
